@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <script>
+        function showFields() {
+            let role = document.querySelector('input[name="role"]:checked').value;
+
+            document.getElementById("studentFields").style.display = "none";
+            document.getElementById("hirerFields").style.display = "none";
+
+            if (role === "student") {
+                document.getElementById("studentFields").style.display = "block";
+            } else if (role === "hirer") {
+                document.getElementById("hirerFields").style.display = "block";
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Register Page</h1>
+    <form action="/register" method="post">
+
+    <!-- Role Selection -->
+    <fieldset>
+        <legend>Who are you?</legend>
+
+        <label>
+            <input type="radio" name="role" value="student" onclick="showFields()" required>
+            Student
+        </label>
+
+        <label>
+            <input type="radio" name="role" value="hirer" onclick="showFields()">
+            Hirer
+        </label>
+    </fieldset>
+
+    <br>
+
+    <!-- Student Fields -->
+    <div id="studentFields" style="display:none;">
+        <h3>Student Info</h3>
+
+        <label>Name:</label><br>
+        <input type="text" name="name"><br><br>
+
+        <label>Email:</label><br>
+        <input type="text" name="email"><br><br>
+
+        <label>Password:</label><br>
+        <input type="password" name="student_password"><br><br>
+
+        <label>
+            <input type="radio" name="gender" value="male"> Male
+        </label>
+
+        <label>
+            <input type="radio" name="gender" value="female"> Female
+        </label>
+    </div>
+
+    <!-- Hirer Fields -->
+    <div id="hirerFields" style="display:none;">
+        <h3>Hirer Info</h3>
+
+        <label>Company Name:</label><br>
+        <input type="text" name="company_name"><br><br>
+
+        <label>Hr contact:</label><br>
+        <input type="text" name="hr_contact"><br><br>
+
+        <label>Website:</label><br>
+        <input type="text" name="website"><br><br>
+
+        <label>Password:</label><br>
+        <input type="password" name="hirer_password"><br><br>
+    </div>
+
+    <br>
+    <input type="submit" value="Register">
+
+</form>
+
+<br><br><p style="display:inline;">Already have an account?</p>
+<a href="{{ url_for('Login') }}">
+<button type="button">Login Here</button>
+</a>
+</body>
+</html>

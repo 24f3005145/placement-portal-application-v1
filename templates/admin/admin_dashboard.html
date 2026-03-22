@@ -1,0 +1,24 @@
+<h1>welcome to admin dashboard!!!</h1>
+
+<h2>Pending Companies</h2>
+
+{% if pending_companies %}
+    {% for company in pending_companies %}
+    <p>
+        {{ company.company_name }}
+        <form method="POST" action="{{ url_for('admin_action') }}" style="display:inline;">
+            <input type="hidden" name="action" value="approve_company">
+            <input type="hidden" name="company_id" value="{{ company.id }}">
+            <button>Approve</button>
+        </form>
+        <form method="POST" action="{{ url_for('admin_action') }}" style="display:inline;">
+            <input type="hidden" name="action" value="reject_company">
+            <input type="hidden" name="company_id" value="{{ company.id }}">
+            <button type="submit">Reject</button>
+        </form>
+    </p>
+    {% endfor %}
+{% else %}
+    <p>No pending companies!</p>
+{% endif %}
+

@@ -1,4 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
+from werkzeug.security import generate_password_hash, check_password_hash
+
 
 db = SQLAlchemy()
 
@@ -9,26 +12,43 @@ class students(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
-    password_hash = db.Column(db.String(20), nullable=False)
-    role = db.Column(db.Enum('admin','company','student', name='role_enum'), nullable=False)
+    password_hash = db.Column(db.String(300), nullable=False)
+    role = db.Column(db.Enum('admin','hirer','student', name='role_enum'), nullable=False)
     is_active = db.Column(db.Integer, nullable=False, default=1)
-    created_at = db.Column(db.String(50), nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     #relationship--------------------------------
     applications = db.relationship('applications', backref='students', lazy=True)
+
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
 
 class companies(db.Model):
     __tablename__ = 'companies'
 
     id = db.Column(db.Integer, primary_key=True)
-    company_name = db.Column(db.String(50), nullable=False)
+    company_name = db.Column(db.String(50), nullable=False, unique=True)
     hr_contact = db.Column(db.String(50))
     website = db.Column(db.String(50))
+    password_hash = db.Column(db.String(300), nullable=False)
     approval_status = db.Column(db.Enum('pending','approved','rejected', name='approval_status_enum'), default='pending')
     is_blacklisted = db.Column(db.Integer, default=0)
 
     #relationship--------------------------------
     placement_drives = db.relationship('placement_drives', backref='companies', lazy=True)
+
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
+
+    def status_of_approval(self):
+        return self.approval_status
+
 
 class placement_drives(db.Model):
     __tablename__ = 'placement_drives'
@@ -54,4 +74,15 @@ class applications(db.Model):
     application_date = db.Column(db.String(50), nullable=False)
     status = db.Column(db.Enum('applied','shortlisted','selected','rejected', name='applications_status_enum'), default='applied')
 
+class admin(db.Model):
+    __tablename__ = 'admin'
 
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(100))
+    password_hash = db.Column(db.String(100))
+
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
