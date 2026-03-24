@@ -23,6 +23,10 @@ ADMIN_PASSWORD = 'admin123'
 def home():
     return render_template('index.html')
 
+@app.route('/company/<name>', methods=['GET','POST'])
+def company_dashboard(name):
+    return render_template('company/company_dashboard.html', name=name)
+
 
 
 #admin 1st view page --------------------------------------------------------- 'might change later'
@@ -32,8 +36,34 @@ def admin_dashboard():
         return redirect(url_for('Login'))
 
     if request.method == 'GET':
+        student_query = request.args.get('student_query')
+        if student_query:
+            active_students = students.query.filter(
+            (students.name.ilike(f"%{student_query}%")) |
+            (students.email.ilike(f"%{student_query}%")) |
+            (students.id == student_query
+            )).all()
+        else:
+            active_students = students.query.filter_by(is_active=1).all()
+
+        company_query = request.args.get('company_query')
+        if company_query:
+            registered_companies = companies.query.filter(
+            (companies.company_name.ilike(f"%{company_query}%")) |
+            (companies.website.ilike(f"%{company_query}%"))
+            ).all()
+        else:
+            registered_companies = companies.query.filter_by(approval_status='approved').all()
+
+
         pending_companies = companies.query.filter_by(approval_status='pending').all()
-        return render_template('admin/admin_dashboard.html', pending_companies=pending_companies)
+        
+        drives = placement_drives.query.filter_by(status='approved')
+        return render_template('admin/admin_dashboard.html', 
+        pending_companies=pending_companies, 
+        registered_companies=registered_companies, 
+        active_students=active_students,
+        drives=drives)
 
 
 #admin actions
@@ -44,7 +74,7 @@ def admin_action():
 
     action = request.form.get('action')
 
-    #company action
+    #company action----------
     if action == 'approve_company':
         company = companies.query.get(request.form.get('company_id'))
         company.approval_status = 'approved'
@@ -55,8 +85,31 @@ def admin_action():
         company = companies.query.get(request.form.get('company_id'))
         company.is_blacklisted = 1
 
+        # cancel all drives
+        for drive in company.placement_drives:
+            drive.status = 'closed'
+    
+    #student action----------
+    elif action == 'blacklist_student':
+        student = students.query.get(request.form.get('student_id'))
+        student.is_active = 0
+
+    #drive action----------
+    elif action == 'approve_drive':
+        placement_drive = placement_drives.query.get(request.form.get('drive_id'))
+        placement_drive.status = 'approved'
+    elif action == 'reject_drive':
+        placement_drive = placement_drives.query.get(request.form.get('drive_id'))
+        placement_drive.status = 'rejected'
+    elif action == 'close_drive':
+        placement_drive = placement_drives.query.get(request.form.get('drive_id'))
+        placement_drive.status = 'closed'
+
     db.session.commit()
     return redirect(url_for('admin_dashboard'))
+
+    
+
 
 
 
@@ -110,10 +163,12 @@ def Login():
                     return render_template('login.html', error="Your company has been succesfully listed. dashboard will be available after admin approval !", color='green')
                 elif user.status_of_approval() == 'rejected':
                     return render_template('login.html', error="Your company listing has been rejected by the admin !", color='red')
+                elif user.is_blacklisted:
+                    return render_template('login.html', error="Company is blacklisted!", color='red')
                 else:
                     session['company_name'] = company_name
-                    return render_template('success.html')
-                    #return redirect(url_for('company_dasboard'))
+                    #return render_template('success.html')
+                    return redirect(url_for('company_dashboard', name=company_name))
             else:
                 return render_template('login.html', error="Invalid company name or password.", color='red')
     
@@ -184,9 +239,7 @@ def logout():
     session.clear()
     return redirect(url_for('Login'))
     
-    #<form action="{{ url_for('logout') }}" method="get">      <-------- later will ad to dashboards for logging out
-    #   <button type="submit">Logout</button>
-    #</form>
+    
 
 
 

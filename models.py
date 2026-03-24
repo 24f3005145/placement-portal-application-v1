@@ -59,7 +59,7 @@ class placement_drives(db.Model):
     job_description = db.Column(db.String(500), nullable=False)
     eligibility_criteria = db.Column(db.String(500), nullable=False)
     deadline = db.Column(db.String(50), nullable=False)
-    status = db.Column(db.Enum('pending','approved','closed', name='placement_drives_status_enum'), default='pending')
+    status = db.Column(db.Enum('pending','approved','rejected','closed', name='placement_drives_status_enum'), default='pending')
     created_at = db.Column(db.String(50), nullable=False)
 
     #relationship--------------------------------
