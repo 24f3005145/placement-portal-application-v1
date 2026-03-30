@@ -43,19 +43,66 @@ A full-stack web application built using Flask that simulates a college placemen
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
-## Project Structure
-
+## 📁 Project Structure
 
 placement-portal-application-v1/
-│── app.py
-│── models.py
-│── config.py
-│── routes/ 
-│── templates/
-│── static/
-│── instance/ (for database)
-│── uploads/ (for user uploads)
-
+│
+├── app.py
+├── models.py
+├── config.py
+│
+├── routes/
+│   ├── admin.py
+│   ├── auth.py
+│   ├── company.py
+│   └── student.py
+│
+├── templates/
+│   ├── index.html
+│   ├── login.html
+│   ├── register.html
+│   ├── error.html
+│   ├── success.html
+│   ├── already_exists.html
+│   │
+│   ├── admin/
+│   │   ├── admin_dashboard.html
+│   │   └── student_application_viewAs_admin.html
+│   │
+│   ├── company/
+│   │   ├── company_dashboard.html
+│   │   └── job_details.html
+│   │
+│   └── student/
+│       ├── student_dashboard.html
+│       ├── company_specific_drive_detail.html
+│       ├── apply_job.html
+│       ├── edit_profile.html
+│       ├── student_application_history.html
+│       └── view_company_details.html
+│
+├── static/
+│   └── css/
+│       ├── style.css
+│       │
+│       ├── admin/
+│       │   └── admin_dashboard.css
+│       │
+│       ├── company/
+│       │   ├── company_dashboard.css
+│       │   └── job_details.css
+│       │
+│       └── student/
+│           ├── student_dashboard.css
+│           ├── view_company_details.css
+│           ├── student_application_history.css
+│           ├── edit_profile.css
+│           └── company_specific_drive_detail.css
+│
+├── instance/          # Database files
+│   └── new.db
+│
+└── uploads/           # User uploaded resumes
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
