@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/student/view_company_details.css') }}">
+</head>
+
+<body>
+    <div class="header">
+        Company Details
+    </div>
+
+    <div class="container">
+        {% if is_blacklisted == 0 %}
+
+        <div class="card">
+            <h1>Overview</h1>
+            <span>{{about_company}}</span>
+        </div>
+
+
+        <div class="card">
+            <h1>Current Drives</h1>
+            {% if active_drives %}
+            {% for active_drive in active_drives %}
+            <div class="drive">
+                <span>Drive ID: {{active_drive.job_id}} </span>
+                <span>Drive Title: {{active_drive.job_title}} </span>
+                <span><a href="{{url_for('student.company_specific_drive_detail', drive_id=active_drive.id)}}"><button>view
+                            details</button></a></span>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="empty">No current drives available</p>
+        {% endif %}
+
+        {% else %}
+        <div class="warning">
+            🚫 This company has been blacklisted by the admin.
+        </div>
+        {% endif %}
+        
+    </div>
+<a href="{{url_for('student.student_dashboard')}}"><button>⬅ Go Back</button></a>
+    
+
+
+</body>
+
+</html>

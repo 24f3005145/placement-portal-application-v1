@@ -5,32 +5,95 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{name}}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/company/company_dashboard.css') }}">
 </head>
 
 <body>
-    <h1>Welcome ! {{name}}</h1>
+    <div class="header">
+        <h4>placement portal application</h4>
 
-    <h2>Post New Job</h2>
-
-    <form method="POST" action="">
-        <input type="text" name="title" placeholder="Job Title" required><br><br>
-
-        <input type="text" name="skills" placeholder="Required Skills" required><br><br>
-
-        <input type="number" name="experience" placeholder="Experience (years)" required><br><br>
-
-        <input type="number" name="salary" placeholder="Salary (LPA)" required><br><br>
-
-        <button type="submit">Post Job</button>
-    </form>
-
-
-
-    <footer>
-        <form action="{{ url_for('logout') }}" method="get">
-            <button type="submit">Logout</button>
+        <div>
+            <a href="{{url_for('student.view_company_details', company_id=company_id)}}"><button
+                    class="btn-view-profile">View Profile</button></a>
+        </div>
+        <form action=" {{ url_for('auth.logout') }}" method="get" style="display:inline;">
+            <button class='btn-danger' type="submit">Logout</button>
         </form>
-    </footer>
+    </div>
+
+    <div class="card">
+        <div class="card">
+            <h2>Welcome {{name}} 👋</h2>
+        </div>
+
+        <div>
+            <h2>Active drives</h2>
+            {% if active_jobs %}
+            {% for active_job in active_jobs %}
+            <div class="item" style="display:inline;">
+                <p>Job ID: {{ active_job.job_id }} </p>
+                <p>Job Title: {{ active_job.job_title }} </p>
+                <p>Deadline: {{ active_job.deadline }}</p><br>
+
+                <a href="{{ url_for('company.job_details', drive_id=active_job.id) }}">
+                    <button type="button" class="btn-primary">View Details</button>
+                </a>
+
+                <form method="POST" action="{{ url_for('company.company_action') }}" style="display:inline;">
+                    <input type="hidden" name="action" value="complete_drive">
+                    <input type="hidden" name="job_id" value="{{ active_job.id }}">
+                    <button type="submit" class="btn-warning">Mark as Complete</button>
+                    <br><br>
+                </form>
+            </div>
+            {% endfor %}
+            {% else %}
+            <p>No active drives!</p>
+            {% endif %}
+        </div>
+
+        <br>
+        <hr><br>
+
+        <div class="card">
+            <h3>Post a new Job</h3>
+            <p class="note">Any new job requires admin approval before going live.</p>
+            <br><br>
+            <form method="POST" action="{{ url_for('company.post_job', name=name) }}">
+
+                <label for="job_id">Job Id:</label><br>
+                <input type="text" id="job_id" name="job_id" required><br><br>
+
+                <label for="job_title">Job Title:</label><br>
+                <input type="text" id="job_title" name="job_title" required><br><br>
+
+                <label for="job_description">Job Description:</label><br>
+                <textarea id="job_description" name="job_description" required></textarea><br><br>
+
+                <label for="required_skills">Required Skills:</label><br>
+                <input type="text" id="required_skills" name="required_skills"
+                    placeholder="Skills (comma separated)"><br><br>
+
+                <label for="experience_required">Experience Required:</label><br>
+                <input type="text" id="experience_required" name="experience_required"
+                    placeholder="in years e.g. 2 or 4 "><br><br>
+
+                <label for="salary_range">Salary Range:</label><br>
+                <input type="text" id="salary_range" name="salary_range"><br><br>
+
+                <label for="eligibility_criteria">Eligibility Criteria:</label><br>
+                <textarea id="eligibility_criteria" name="eligibility_criteria"></textarea><br><br>
+
+                <label for="deadline">Application Deadline:</label><br>
+                <input type="date" id="deadline" name="deadline"><br><br>
+
+                <button type="submit" class="btn-success">Post Job</button>
+            </form><br><br>
+        </div>
+
+    </div>
+
+
 </body>
 
 </html>

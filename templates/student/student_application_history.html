@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application history</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/student/student_application_history.css') }}">
+</head>
+
+<body>
+    <div class="header">
+        <h1>Students' Application History</h1>
+    </div>
+
+    <div class="container">
+        <div class="profile-card">
+            <span><b>Student ID: </b> {{id}} |</span>
+            <span><b>Student Name: </b> Mr. {{name}} |</span>
+            <span><b>Student Email: </b> {{email}} |</span>
+            <span><b>Department: </b>{{department}}  |</span>
+            <span><b>Education: </b>{{education}}  |</span>
+            <span><b>Skills: </b>{{skills}}  |</span>
+            <span><b>Contact: </b>{{contact}}</span>
+        </div>
+
+        <div class="card">
+            {% if applications %}
+            <table>
+                <tr>
+                    <th>Sr No.</th>
+                    <th>Drive ID</th>
+                    <th>Drive Name</th>
+                    <th>Company Name</th>
+                    <th>Status</th>
+                    <th>Applied CV</th>
+                </tr>
+
+                {% for application in applications %}
+                {% if application.status == 'selected' and application.placement_drives.companies.is_blacklisted == 0 %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ application.placement_drives.job_id }}</td>
+                    <td>{{ application.placement_drives.job_title }}</td>
+                    <td>{{ application.placement_drives.companies.company_name }}</td>
+                    <td>{{ application.status }}</td>
+                    <td><a href="{{ url_for('student.view_cv', filename=application.cv_filename) }}"
+                            target="_blank">View
+                            CV</a>
+                    </td>
+                    <td><a href="{{url_for('placed')}}"> view details </a></td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ application.placement_drives.job_id }}</td>
+                    <td>{{ application.placement_drives.job_title }}</td>
+                    <td>{{ application.placement_drives.companies.company_name }}</td>
+                    <td>{{ application.status }}</td>
+                    <td><a href="{{ url_for('student.view_cv', filename=application.cv_filename) }}"
+                            target="_blank">View
+                            CV</a>
+                    </td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+
+            </table>
+            {% else %}
+            <span>No application history to show !!</span>
+            {% endif %}
+        </div>
+    </div>
+
+    <a href="{{url_for('student.student_dashboard')}}" class="back-btn">⬅ Back to Dashboard</a>
+</body>
+
+</html>

@@ -1,0 +1,133 @@
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Body */
+body {
+    background: #eef1f5;
+    color: #2c3e50;
+}
+
+/* Header */
+.header {
+    background: #1f2937; /* dark slate */
+    color: white;
+    padding: 20px 30px;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+/* Container */
+.container {
+    padding: 30px;
+}
+
+/* Card */
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* Section Title */
+.card h2 {
+    margin-bottom: 15px;
+}
+
+/* Search Bar */
+input[type="text"] {
+    padding: 8px;
+    width: 250px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    margin-right: 10px;
+}
+
+/* Buttons */
+button {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 13px;
+}
+
+/* Action Buttons */
+.btn-primary {
+    background: #2563eb; /* blue */
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #1e4ed8;
+}
+
+.btn-danger {
+    background: #dc2626; /* red */
+    color: white;
+}
+
+.btn-danger:hover {
+    background: #4e1414;
+}
+
+.btn-interfere{
+    background: #0132a4; /* greenish black */
+    color: white;
+}
+
+.btn-interfere:hover{
+    background: #000206;
+}
+
+.btn-success {
+    background: #16a34a;
+    color: white;
+}
+
+.btn-success:hover {
+    background: #15803d;
+}
+
+/* List Item */
+.item {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.item:last-child {
+    border-bottom: none;
+}
+
+/* Inline Forms Fix */
+.inline-form {
+    display: inline;
+}
+
+/* Status Badge */
+.status {
+    padding: 4px 8px;
+    border-radius: 5px;
+    font-size: 12px;
+    color: white;
+}
+
+.status.applied { background: #2563eb; }
+.status.selected { background: #16a34a; }
+.status.shortlisted { background: #f59e0b; }
+.status.rejected { background: #dc2626; }
+
+/* Footer logout */
+.logout {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
+

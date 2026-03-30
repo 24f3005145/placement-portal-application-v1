@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/student/company_specific_drive_detail.css') }}">
+</head>
+
+<body>
+    <div class="header">Drive Details</div>
+    <div class="container">
+
+        <h1>Drive {{drive_id}}</h1>
+        <div class="card">
+            <div class="section">
+                <h2>Job ID</h2>
+                <span>{{job_id}}</span>
+            </div>
+            <div class="section">
+                <h2>Job Title</h2>
+                <span>{{job_title}}</span>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="section">
+                <h2>Job Description</h2>
+                <span>{{job_description}}</span>
+            </div>
+            <div class="section">
+                <h2>Required Skills</h2>
+                <span>{{required_skills}}</span>
+            </div>
+            <div class="section">
+                <h2>Experience Required</h2>
+                <span>{{experience_required}}</span>
+            </div>
+            <div class="section">
+                <h2>Salary Range</h2>
+                <span>{{salary_range}}</span>
+            </div>
+            <div class="section">
+                <h2>Eligibility Criteria</h2> class="section"
+                <span>{{eligibility_criteria}}</span>
+            </div>
+        </div>
+        <div class="card highlight">
+            <h2>Deadline</h2>
+            <span>{{deadline}}</span>
+        </div>
+
+        <div class="actions">
+            <a href="{{ url_for('student.apply_job', drive_id=drive_id) }}">
+                <button class="btn apply-btn">Apply</button>
+            </a>
+            <a href="{{ url_for('student.student_dashboard') }}">
+                <button class="btn back-btn">Back</button>
+            </a>
+        </div>
+
+    </div>
+</body>
+
+</html>

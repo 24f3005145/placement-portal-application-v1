@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .card h2 {
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+
+        .info {
+            margin: 8px 0;
+            font-size: 15px;
+        }
+
+        .label {
+            font-weight: bold;
+            color: #34495e;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 15px;
+            background-color: #2c3e50;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+        }
+
+        .back-btn:hover {
+            background-color: #1a252f;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <!-- Drive Details -->
+        <div class="card">
+            <h2>Drive Details</h2>
+
+            <div class="info"><span class="label">Drive ID:</span> {{drive.id}}</div>
+            <div class="info"><span class="label">Job ID:</span> {{drive.job_id}}</div>
+            <div class="info"><span class="label">Job Title:</span> {{drive.job_title}}</div>
+            <div class="info"><span class="label">Job Description:</span> {{drive.job_description}}</div>
+            <div class="info"><span class="label">Required Skills:</span> {{drive.required_skills}}</div>
+            <div class="info"><span class="label">Experience Required:</span> {{drive.experience_required}}</div>
+            <div class="info"><span class="label">Salary Range:</span> {{drive.salary_range}}</div>
+            <div class="info"><span class="label">Eligibility:</span> {{drive.eligibility_criteria}}</div>
+            <div class="info"><span class="label">Deadline:</span> {{drive.deadline}}</div>
+            <div class="info"><span class="label">Status:</span> {{drive.status}}</div>
+        </div>
+
+        <!-- Student Details -->
+        <div class="card">
+            <h2>Student Profile</h2>
+
+            <div class="info"><span class="label">Student ID:</span> {{student.id}}</div>
+            <div class="info"><span class="label">Name:</span> {{student.name}}</div>
+            <div class="info"><span class="label">Email:</span> {{student.email}}</div>
+            <div class="info"><span class="label">Department:</span> {{student.department}}</div>
+            <div class="info"><span class="label">Education:</span> {{student.education}}</div>
+            <div class="info"><span class="label">Skills:</span> {{student.skills}}</div>
+            <div class="info"><span class="label">Contact:</span> {{student.contact}}</div>
+        </div>
+
+        <!-- Back -->
+        <a href="{{url_for('admin.admin_dashboard')}}" class="back-btn">
+            ← Back to Dashboard
+        </a>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Students' Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/student/student_dashboard.css') }}">
+</head>
+
+<body>
+
+
+
+    <div class="header">
+        <h5>placement portal application</h5>
+        <h1>Students' Dashboard</h1>
+        <div>
+            <a href="{{ url_for('student.edit_profile') }}"><button>edit profile  </button></a> 
+            <a href="{{ url_for('student.student_application_history') }}"><button>History/Profile  </button></a> 
+            <a href="{{ url_for('auth.logout') }}"><button>Logout</button></a>
+        </div>
+    </div>
+
+
+    <div class="container">
+        
+        <!-- Welcome -->
+        <div class="welcome-card">
+            <h2>Welcome, {{ name }} 👋</h2>
+        </div>
+
+        <div class="card">
+            <h3>Organizations</h3>
+
+            {% for company in company_list %}
+            <div class="company">
+                <span>Company Name: {{ company.company_name }} </span>
+                <span>Company Status: {% if company.is_blacklisted == 0 %} Approved {% else %} Blacklisted {% endif
+                    %}</span>
+                <a href="{{url_for('student.view_company_details', company_id=company.id)}}"> <button>view
+                        details</button> </a>
+            </div><br>
+            {% endfor %}
+        </div>
+
+        <div class="card">
+            <h3>Applied Drives</h3>
+
+            {% if drive_applications %}
+            <table>
+                <tr>
+                    <th>Sr No.</th>
+                    <th>Drive ID</th>
+                    <th>Company Name</th>
+                    <th>Status</th>
+                    <th></th>
+                </tr>
+
+                {% for drive_application in drive_applications %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ drive_application.drive_id }}</td>
+                    <td>{{ drive_application.placement_drives.companies.company_name }}</td>
+                    <td>{{ drive_application.status }}</td>
+                    <td>
+                    </td>
+                </tr>
+                {% endfor %}
+
+            </table>
+            {% else %}
+            <span>Not yet Applied!</span>
+            {% endif %}
+
+        </div>
+    </div>
+
+
+
+    <footer><br>
+        <hr><br>
+        <form action="{{ url_for('auth.logout') }}" method="get">
+            <button type="submit">Logout</button>
+        </form>
+    </footer>
+</body>
+
+</html>

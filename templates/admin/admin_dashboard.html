@@ -5,139 +5,239 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin/admin_dashboard.css') }}">
 </head>
 
 <body>
-    <h1>welcome to admin dashboard!!!</h1>
-
-    <h2>Search Companies</h2>
-    <form method="GET" action="{{ url_for('admin_dashboard') }}">
-        <input type="text" name="company_query" placeholder="Search by name or website">
-        <button type="submit">Search</button>
-    </form>
-
-    <!-- ===================== REGISTERED COMPANIES ===================== -->
-    <h2>Registered Companies</h2>
-
-    {% for company in registered_companies %}
-    <div>
-        {% if company.is_blacklisted == 0 %}
-        {{ company.company_name }}
-
-        <!-- Blacklist -->
-        <form method="POST" action="{{ url_for('admin_action') }}" style="display:inline;">
-            <input type="hidden" name="action" value="blacklist_company">
-            <input type="hidden" name="company_id" value="{{ company.id }}">
-            <button type="submit" style="display:inline;">Blacklist</button>
-            <br><br>
-        </form>
+    <div class="header">
+        Admin Dashboard
+        <a href="{{ url_for('auth.logout') }}" style="position: right;">
+            <button class="btn-danger">Logout</button>
+        </a>
     </div>
-    {% endif %}
-    {% endfor %}
 
-
-    <!-- ===================== COMPANY APPLICATIONS ===================== -->
-    <h2>Company Applications (Pending Approval)</h2>
-    {% if pending_companies %}
-    {% for company in pending_companies %}
-    <p>
-    <p style="display:inline;">{{ company.company_name }}</p>
-    <form method="POST" action="{{ url_for('admin_action') }}" style="display:inline;">
-        <input type="hidden" name="action" value="approve_company">
-        <input type="hidden" name="company_id" value="{{ company.id }}">
-        <button style="display:inline;">Approve</button>
-    </form>
-    <form method="POST" action="{{ url_for('admin_action') }}" style="display:inline;">
-        <input type="hidden" name="action" value="reject_company">
-        <input type="hidden" name="company_id" value="{{ company.id }}">
-        <button type="submit" style="display:inline;">Reject</button>
-        <br><br>
-    </form>
-    </p>
-    {% endfor %}
-    {% else %}
-    <p>No pending companies!</p>
-    {% endif %}
-
-
-    <div>
-        <h2>Search Students</h2>
-        <form method="GET" action="{{ url_for('admin_dashboard') }}">
-            <input type="text" name="student_query" placeholder="Search by name, email, ID">
-            <button type="submit">Search</button>
-        </form>
-    </div>
-    <!-- ===================== REGISTERED STUDENTS ===================== -->
-    <h2>Registered Students</h2>
-    <div>
-        {% for student in active_students %}
-        <div>
-            {{ student.name }}
-
-            <!-- Blacklist -->
-            <form method="POST" action="{{ url_for('admin_action') }}" style="display:inline;">
-                <input type="hidden" name="action" value="blacklist_student">
-                <input type="hidden" name="student_id" value="{{ student.id }}">
-                <button type="submit">Blacklist</button>
-                <br><br>
+    <div class="container">
+        <div class="card">
+            <h2>Search Companies</h2>
+            <form method="GET" action="{{ url_for('admin.admin_dashboard') }}">
+                <input type="text" name="company_query" placeholder="Search by name or website">
+                <button type="submit" class="btn-primary">Search</button>
             </form>
         </div>
-        {% endfor %}
+
+        <!-- ===================== REGISTERED COMPANIES ===================== -->
+        <div class="card">
+            <h2>Registered Companies: {{company_count}}</h2>
+
+            {% if registered_companies %}
+
+            {% for company in registered_companies %}
+            {% if company.is_blacklisted == 0 %}
+
+            <div class="item">
+                {{ company.company_name }}
+
+                <!-- Blacklist -->
+                <form method="POST" action="{{ url_for('admin.admin_action') }}" class="inline-form">
+                    <input type="hidden" name="action" value="blacklist_company">
+                    <input type="hidden" name="company_id" value="{{ company.id }}">
+                    <button class="btn-danger" type="submit" style="display:inline;">Blacklist</button>
+                    <br><br>
+                </form>
+            </div>
+
+            {% endif %}
+            {% endfor %}
+            {% else %}
+            <p>No companies have registered yet !</p>
+            {% endif %}
+        </div>
+
+
+        <!-- ===================== COMPANY APPLICATIONS ===================== -->
+        <div class="card">
+            <h2>Company Applications (Pending Approval)</h2>
+            {% if pending_companies %}
+            {% for company in pending_companies %}
+            <div class="item">
+                <p style="display:inline;">{{ company.company_name }}</p>
+                <form method="POST" action="{{ url_for('admin.admin_action') }}" style="display:inline;">
+                    <input type="hidden" name="action" value="approve_company">
+                    <input type="hidden" name="company_id" value="{{ company.id }}">
+                    <button style="display:inline;" class="btn-success">Approve</button>
+                </form>
+                <form method="POST" action="{{ url_for('admin.admin_action') }}" style="display:inline;">
+                    <input type="hidden" name="action" value="reject_company">
+                    <input type="hidden" name="company_id" value="{{ company.id }}">
+                    <button type="submit" style="display:inline;" class="btn-danger">Reject</button>
+                    <br><br>
+                </form>
+            </div>
+            {% endfor %}
+            {% else %}
+            <p>No pending companies!</p>
+            {% endif %}
+        </div>
+
+
+        <div class="card">
+            <h2>Search Students</h2>
+            <form method="GET" action="{{ url_for('admin.admin_dashboard') }}">
+                <input type="text" name="student_query" placeholder="Search by name, email, ID">
+                <button type="submit" class="btn-primary">Search</button>
+            </form>
+        </div>
+        <!-- ===================== REGISTERED STUDENTS ===================== -->
+
+
+        <div class="card">
+            <h2>Registered Students: {{student_count}}</h2>
+            {% if active_students %}
+            {% for student in active_students %}
+            <div class="item">
+                {{ student.name }}
+
+                <!-- Blacklist -->
+                <form method="POST" action="{{ url_for('admin.admin_action') }}" style="display:inline;">
+                    <input type="hidden" name="action" value="blacklist_student">
+                    <input type="hidden" name="student_id" value="{{ student.id }}">
+                    <button type="submit" class="btn-danger">Blacklist</button>
+
+                </form><br>
+            </div>
+            {% endfor %}
+            {% else %}
+            No students have registered yet !
+            {% endif %}
+        </div>
+
+
+
+
+
+
+        <!-- ===================== ONGOING DRIVES ===================== -->
+        <div class="card">
+            <h2>Ongoing Drives: {{drive_count}}</h2>
+
+            {% if drives %}
+            {% for drive in drives %}
+            <div class="item">
+                (Company ID: {{ drive.company_id }}) | (Company Name: {{ drive.companies.company_name }}) | (Job ID: {{
+                drive.job_id }}) | (Job Title: {{ drive.job_title }})
+
+                <form method="POST" action="{{ url_for('admin.admin_action') }}" style="display:inline;">
+                    <input type="hidden" name="action" value="emergency_close_drive">
+                    <input type="hidden" name="drive_id" value="{{ drive.id }}">
+                    <button type="submit" class="btn-interfere">Emergency: Close Drive</button>
+                </form><br>
+            </div>
+            {% endfor %}
+            {% else %}
+            <p>No Drives to show.</p>
+            {% endif %}
+
+        </div>
+
+        <!-- ===================== DRIVES PENDING APPROVAL ===================== -->
+        <div class="card">
+            <h2>DRIVES (Pending Approval)</h2>
+            {% if pending_drives %}
+            {% for pending_drive in pending_drives %}
+            <div class="item">
+                <p style="display:inline;">Company ID: {{ pending_drive.company_id }} |</p>
+                <p style="display:inline;">Company Name: {{ pending_drive.companies.company_name }} |</p>
+                <p style="display:inline;">Job ID: {{ pending_drive.job_id }} |</p>
+                <p style="display:inline;">Job Title: {{ pending_drive.job_title }}</p>
+
+                <form method="POST" action="{{ url_for('admin.admin_action') }}" style="display:inline;">
+                    <input type="hidden" name="action" value="approve_drive">
+                    <input type="hidden" name="drive_id" value="{{ pending_drive.id }}">
+                    <button style="display:inline;" class="btn-success">Approve</button>
+                </form>
+                <form method="POST" action="{{ url_for('admin.admin_action') }}" style="display:inline;">
+                    <input type="hidden" name="action" value="reject_drive">
+                    <input type="hidden" name="drive_id" value="{{ pending_drive.id }}">
+                    <button type="submit" style="display:inline;" class="btn-danger">Reject</button>
+                    <br><br>
+                </form>
+            </div>
+            {% endfor %}
+            {% else %}
+            <p>No pending Drives!</p>
+            {% endif %}
+        </div>
+
+
+
+
+
+
+
+        <!-- ===================== STUDENT APPLICATIONS ===================== -->
+        <div class="card">
+            <h2>Job Applications: {{application_count}}</h2>
+
+            {%if applications%}
+            {% for app in applications %}
+
+            {%if app.status == 'applied' %}
+            <div class="item">
+                <b>Student ID:</b> {{ app.students.id }} | <b>Job ID: </b> {{ app.placement_drives.job_id }} | Status:
+                Applied
+
+                <a href="{{ url_for('admin.student_application_viewAs_admin', 
+                student_id=app.students.id, 
+                drive_id=app.placement_drives.id) }}">
+                    <button class="btn-primary">View</button>
+                </a>
+            </div>
+            {% elif app.status == 'selected' %}
+            <div class="item">
+                <b>Student ID:</b> {{ app.students.id }} | <b>Job ID: </b> {{ app.placement_drives.job_id }} | Status:
+                Selected
+
+                <a href="{{ url_for('admin.student_application_viewAs_admin', 
+                student_id=app.students.id, 
+                drive_id=app.placement_drives.id) }}">
+                    <button class="btn-primary">View</button>
+                </a>
+            </div>
+            {% elif app.status == 'shortlisted' %}
+            <div class="item">
+                <b>Student ID:</b> {{ app.students.id }} | <b>Job ID: </b> {{ app.placement_drives.job_id }} | Status:
+                Shorlisted
+
+                <a href="{{ url_for('admin.student_application_viewAs_admin', 
+                student_id=app.students.id, 
+                drive_id=app.placement_drives.id) }}">
+                    <button class="btn-primary">View</button>
+                </a>
+            </div>
+            {%elif app.status == 'rejected' %}
+            <div class="item">
+                <b>Student ID:</b> {{ app.students.id }} | <b>Job ID: </b> {{ app.placement_drives.job_id }} | Status:
+                Rejected
+
+                <a href="{{ url_for('admin.student_application_viewAs_admin',  
+                student_id=app.students.id, 
+                drive_id=app.placement_drives.id) }}">
+                    <button class="btn-primary">View</button>
+                </a>
+            </div>
+            {% endif %}
+            {% endfor %}
+            {% else %}
+            No Applications to show yet !
+            {% endif %}
+        </div>
     </div>
 
-
-
-
-
-
-    <!-- ===================== ONGOING DRIVES ===================== -->
-    <h2>Ongoing Drives</h2>
-
-    {% if drives %}
-    {% for drive in drives %}
-    <div>
-        {{ drive.job_title }} (Company ID: {{ drive.company_id }})
-
-        <!-- View (placeholder) -->
-        <!-- <button disabled>View Details</button> -->
-
-        <!-- Mark Complete -->
-        <form method="POST" action="{{ url_for('admin_action') }}" style="display:inline;">
-            <input type="hidden" name="action" value="approve_drive">
-            <input type="hidden" name="drive_id" value="{{ drive.id }}">
-            <button type="submit">Approve</button>
-        </form><br><br>
-        <form method="POST" action="{{ url_for('admin_action') }}" style="display:inline;">
-            <input type="hidden" name="action" value="reject_drive">
-            <input type="hidden" name="drive_id" value="{{ drive.id }}">
-            <button type="submit">Reject</button>
-        </form><br><br>
-        <form method="POST" action="{{ url_for('admin_action') }}" style="display:inline;">
-            <input type="hidden" name="action" value="close_drive">
-            <input type="hidden" name="drive_id" value="{{ drive.id }}">
-            <button type="submit">Close</button>
-        </form><br><br>
-    </div>
-    {% endfor %}
-    {% else %}
-    <p>No Drives to show.</p>
-    {% endif %}
-
-    <!-- ===================== STUDENT APPLICATIONS ===================== -->
-    <h2>Student Applications</h2>
-
-    {% for app in applications %}
-    <div>
-        {{ app.students.name }} applied to {{ app.placement_drives.job_title }}
-
-        <!-- View (placeholder) -->
-        <button disabled>View</button>
-    </div>
-    {% endfor %}
-
-    <form action="{{ url_for('logout') }}" method="get">
-        <button type="submit">Logout</button>
-    </form>
+    <footer class="logout">
+        <form action="{{ url_for('auth.logout') }}" method="get">
+            <button type="submit" class="btn-danger">Logout</button>
+        </form>
+    </footer>
 </body>
 
 </html>

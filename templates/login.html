@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,65 +27,75 @@
             }
         }
     </script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
+
 <body>
-    <h1>Login Page</h1>
+    <div class="mainContainer">
+        <div class="registerInfo">
+            <h1>Login Page</h1>
 
-    <form action="/login" method="post">
+            <form action="/login" method="post">
 
-    <!-- Role Selection -->
-    <fieldset>
-        <legend>Login as</legend>
+                <!-- Role Selection -->
+                <fieldset>
+                    <legend>Login as</legend>
 
-        <label>
-            <input type="radio" name="role" value="student" onclick="showLoginFields()" required>
-            Student
-        </label>
+                    <label>
+                        <input type="radio" name="role" value="student" onclick="showLoginFields()" required>
+                        Student
+                    </label>
 
-        <label>
-            <input type="radio" name="role" value="hirer" onclick="showLoginFields()">
-            Company
-        </label>
-    </fieldset>
+                    <label>
+                        <input type="radio" name="role" value="hirer" onclick="showLoginFields()">
+                        Company
+                    </label>
+                </fieldset>
 
-    <br>
+                <br>
 
-    <!-- Student Login -->
-    <div id="studentLogin" style="display:none;">
-        <h3>Student Login</h3>
+                <!-- Student Login -->
+                <div id="studentLogin" style="display:none;">
+                    <h3>Student Login</h3>
 
-        <label>Email:</label><br>
-        <input type="email" name="email" placeholder=" unique username only."><br><br>
+                    <label>Email:</label><br>
+                    <input type="email" name="email" placeholder=" unique username only."><br><br>
 
-        <label>Password:</label><br>
-        <input type="password" name="student_password"><br><br>
+                    <label>Password:</label><br>
+                    <input type="password" name="student_password"><br><br>
+                </div>
+
+                <!-- Company Login -->
+                <div id="hirerLogin" style="display:none;">
+                    <h3>Company Login</h3>
+
+                    <label>Company Name:</label><br>
+                    <input type="text" name="company_name" placeholder=" unique companies only."><br><br>
+
+                    <label>Password:</label><br>
+                    <input type="password" name="hirer_password"><br><br>
+                </div>
+
+                <br>
+                <input type="submit" value="Login">
+            </form>
+        </div>
+
+        <br><br>
+        <div class="loginHere">
+            <p style="display:inline;">Don't have an account?</p>
+        <a href="{{ url_for('auth.register') }}">
+            <button type="button">Register Here</button>
+        </a>
+        </div>
+
+        {% if error %}
+        <div id="error_msg" style="color: {{ color }}; margin-top: 15px;">
+            {{ error }}
+        </div>
+        {% endif %}
     </div>
 
-    <!-- Company Login -->
-    <div id="hirerLogin" style="display:none;">
-        <h3>Company Login</h3>
-
-        <label>Company Name:</label><br>
-        <input type="text" name="company_name" placeholder=" unique companies only."><br><br>
-
-        <label>Password:</label><br>
-        <input type="password" name="hirer_password"><br><br>
-    </div>
-
-    <br>
-    <input type="submit" value="Login">
-    </form>
-    
-    <br><br><p style="display:inline;">Don't have an account?</p>
-    <a href="{{ url_for('register') }}">
-    <button type="button">Register Here</button>
-    </a>
-
-    {% if error %}
-    <div id="error_msg" style="color: {{ color }}; margin-top: 15px;">
-        {{ error }}
-    </div>
-    {% endif %}
-    
 </body>
+
 </html>
