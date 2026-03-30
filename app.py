@@ -2,10 +2,10 @@ from flask import Flask, render_template
 from models import db
 import os
 
-from auth import auth_bp
-from admin import admin_bp
-from company import company_bp
-from student import student_bp
+from routes.auth import auth_bp
+from routes.admin import admin_bp
+from routes.company import company_bp
+from routes.student import student_bp
 
 app = Flask(__name__)
 app.secret_key = 'your-secret-key'

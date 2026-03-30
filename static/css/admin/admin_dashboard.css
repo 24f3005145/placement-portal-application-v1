@@ -96,6 +96,15 @@ button {
     background: #15803d;
 }
 
+.btn-logout {
+    background: #1f2937;
+    color: white;
+}
+
+.btn-logout:hover {
+    background: #b30707;
+}
+
 /* List Item */
 .item {
     padding: 10px;
