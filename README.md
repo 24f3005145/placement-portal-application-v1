@@ -133,7 +133,7 @@ This project demonstrates:
 
 ## Author
 
-Shubhankar Bajpai
+Shubhankar Bajpai, 
 Data Science Student (IIT Madras)
 
 -----------------------------------------------------------------------------------------------------------------------------------------------
