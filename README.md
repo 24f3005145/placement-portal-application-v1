@@ -44,7 +44,7 @@ A full-stack web application built using Flask that simulates a college placemen
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
 ## 📁 Project Structure
-
+```
 placement-portal-application-v1/
 │
 ├── app.py
@@ -103,7 +103,7 @@ placement-portal-application-v1/
 │   └── new.db
 │
 └── uploads/           # User uploaded resumes
-
+```
 -----------------------------------------------------------------------------------------------------------------------------------------------
 
 ## Setup Instructions
